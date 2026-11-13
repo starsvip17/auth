@@ -16,14 +16,30 @@
             --accent-green-bg: rgba(0, 200, 83, 0.1);
             --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-color); color: var(--text-main); font-family: var(--font-family); display: flex; height: 100vh; overflow: hidden; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
         /* --- BARRA LATERAL --- */
         .sidebar {
-            width: 280px; background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color);
-            display: flex; flex-direction: column; padding: 20px; height: 100%; overflow-y: auto;
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            height: 100%;
+            overflow-y: auto;
         }
+
         .sidebar-header { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; padding-left: 5px; }
         .sidebar-header img { height: 40px; border-radius: 8px; }
         .sidebar-header h1 { font-size: 20px; font-weight: 800; }
@@ -31,8 +47,14 @@
         .sidebar-header p { font-size: 9px; color: var(--text-muted); }
         
         .current-app {
-            background-color: transparent; border: 1px solid var(--border-color); border-radius: 10px;
-            padding: 12px; display: flex; align-items: center; gap: 12px; margin-bottom: 25px;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
         }
         .app-icon { background-color: var(--accent-green-bg); color: var(--accent-green); padding: 8px; border-radius: 8px; }
         .app-icon svg { width: 18px; height: 18px; }
@@ -40,8 +62,14 @@
         .app-info strong { font-size: 14px; font-weight: 600; }
 
         .mi-cuenta-link {
-            display: flex; justify-content: space-between; padding: 15px 10px; color: var(--text-muted);
-            text-decoration: none; font-size: 14px; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
             margin: 15px 0;
         }
         .mi-cuenta-link:hover { color: var(--text-main); }
@@ -50,16 +78,29 @@
         .nav-title { font-size: 10px; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 10px; padding-left: 10px; }
         .nav-menu { list-style: none; }
         .nav-link {
-            display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 8px;
-            color: var(--text-muted); text-decoration: none; font-size: 14px; transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
         }
         .nav-link:hover { background-color: rgba(255, 255, 255, 0.05); color: var(--text-main); }
         .nav-link.active { background-color: var(--accent-green-bg); color: var(--accent-green); font-weight: 500; }
         .nav-link svg { width: 18px; height: 18px; }
 
         .user-profile {
-            margin-top: auto; background-color: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 10px; padding: 12px; display: flex; align-items: center; justify-content: space-between;
+            margin-top: auto;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         .user-info { display: flex; align-items: center; gap: 10px; }
         .user-avatar { width: 35px; height: 35px; border-radius: 50%; overflow: hidden; }
@@ -69,19 +110,32 @@
         .logout-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; }
         .logout-btn:hover { color: #ff4444; }
 
-        /* --- CONTENIDO --- */
+        /* --- CONTENIDO PRINCIPAL --- */
         .main-content { flex: 1; padding: 40px; overflow-y: auto; }
         .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .page-header h2 { font-size: 28px; }
         
         .btn-primary {
-            background-color: var(--accent-green); color: #000; border: none; border-radius: 8px;
-            padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer;
-            display: flex; align-items: center; gap: 8px;
+            background-color: var(--accent-green);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .btn-primary:hover { opacity: 0.9; }
 
-        .table-container { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
+        .table-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th { background-color: rgba(255,255,255,0.02); padding: 15px 20px; font-size: 12px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); }
         td { padding: 15px 20px; font-size: 14px; border-bottom: 1px solid var(--border-color); }
@@ -93,8 +147,14 @@
         .status.expired { background-color: rgba(255, 68, 68, 0.1); color: #ff4444; }
         
         .action-btn {
-            background: transparent; border: 1px solid var(--border-color); color: var(--text-muted);
-            padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: 0.3s;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.3s;
         }
         .action-btn:hover { border-color: var(--accent-green); color: var(--accent-green); }
 
@@ -102,6 +162,7 @@
 </head>
 <body>
 
+    <!-- BARRA LATERAL -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="logo.jpeg" alt="Logo">
@@ -143,6 +204,7 @@
         </div>
     </aside>
 
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="main-content">
         <div class="page-header">
             <h2>Gestión de Licencias</h2>
@@ -165,7 +227,7 @@
                 <tbody id="tablaLicencias">
                     <tr>
                         <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">
-                            Cargando licencias desde la API...
+                            Cargando licencias de forma segura...
                         </td>
                     </tr>
                 </tbody>
@@ -174,11 +236,10 @@
     </main>
 
     <script>
-        // CONFIGURACIÓN SEGÚN TU DOCUMENTACIÓN
-        const API_URL = 'https://sxnt-license-api-production.up.railway.app/api/licenses';
-        const API_KEY = 'sxntana1302';
+        // CONFIGURACIÓN SEGURA CON CLOUDFLARE WORKER (Sin llaves expuestas)
+        const API_URL = 'https://starsvip-api-proxy.naooko18.workers.dev/api/licenses';
 
-        // 1. Función para cargar las licencias (GET)
+        // 1. Cargar Licencias (GET)
         async function cargarLicencias() {
             const tabla = document.getElementById('tablaLicencias');
             
@@ -186,12 +247,11 @@
                 const response = await fetch(API_URL, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${API_KEY}`,
                         'Content-Type': 'application/json'
                     }
                 });
 
-                if (!response.ok) throw new Error('Error en la API');
+                if (!response.ok) throw new Error('Error en la respuesta de la API');
 
                 const licencias = await response.json();
 
@@ -200,7 +260,7 @@
                     return;
                 }
 
-                // Dibujar las filas reales de tu base de datos
+                // Renderizar filas
                 tabla.innerHTML = licencias.map(lic => `
                     <tr>
                         <td style="font-family: monospace; color: var(--accent-green); font-weight: bold;">${lic.key}</td>
@@ -222,14 +282,14 @@
                 tabla.innerHTML = `
                     <tr>
                         <td colspan="5" style="text-align: center; color: #ff4444; padding: 30px;">
-                            Error de conexión. Revisa la consola (F12) o que la API esté activa.
+                            Error de conexión. Asegúrate de que el Worker de Cloudflare esté activo.
                         </td>
                     </tr>
                 `;
             }
         }
 
-        // 2. Función para generar una nueva licencia (POST)
+        // 2. Generar Licencia (POST)
         async function generarLicencia() {
             const username = prompt("Ingresa el nombre de usuario para la licencia:");
             if (!username) return;
@@ -241,13 +301,12 @@
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${API_KEY}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         username: username,
                         days: parseInt(days),
-                        tier: "vip" // Según tu documentación, solo soporta "vip"
+                        tier: "vip"
                     })
                 });
 
@@ -265,12 +324,13 @@
             }
         }
 
+        // 3. Copiar Key
         function copiarTexto(texto) {
             navigator.clipboard.writeText(texto);
             alert("Licencia copiada: " + texto);
         }
 
-        // Iniciar la carga al abrir la página
+        // Iniciar
         document.addEventListener('DOMContentLoaded', cargarLicencias);
     </script>
 </body>
