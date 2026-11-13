@@ -23,9 +23,18 @@
 
         /* --- BARRA LATERAL --- */
         .sidebar {
-            width: 280px; background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color);
-            display: flex; flex-direction: column; padding: 20px; height: 100%; overflow-y: auto;
+            width: 280px; 
+            background-color: var(--sidebar-bg); 
+            border-right: 1px solid var(--border-color);
+            display: flex; 
+            flex-direction: column; 
+            padding: 20px; 
+            height: 100%; 
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
         }
+        
         .sidebar-header { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; padding-left: 5px; }
         .sidebar-header img { height: 40px; border-radius: 8px; }
         .sidebar-header h1 { font-size: 20px; font-weight: 800; }
@@ -59,14 +68,33 @@
         .logout-btn:hover { color: #ff4444; }
 
         /* --- CONTENIDO PRINCIPAL --- */
-        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; }
         
+        /* Botón de menú móvil */
+        .mobile-menu-btn {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            width: fit-content;
+        }
+
+        /* Fondo oscuro al abrir menú en móvil */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 999;
+        }
+
         /* Tarjetas de estadísticas */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card {
-            background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px;
-            padding: 20px; display: flex; align-items: center; gap: 15px; position: relative; overflow: hidden;
-        }
+        .stat-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 15px; position: relative; overflow: hidden; }
         .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background-color: var(--border-color); }
         .stat-card.total::before { background-color: var(--accent-red); }
         .stat-card.unused::before { background-color: #5b6ee1; }
@@ -91,8 +119,8 @@
         .btn-secondary:hover { border-color: #444; }
 
         /* Tabla de licencias */
-        .table-container { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
+        .table-container { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; /* Asegura que la tabla no se aplaste en móvil */ }
         th { background-color: rgba(255,255,255,0.02); padding: 15px 20px; font-size: 12px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); }
         td { padding: 15px 20px; font-size: 14px; border-bottom: 1px solid var(--border-color); }
         tr:last-child td { border-bottom: none; }
@@ -106,24 +134,15 @@
         .action-btn:hover { border-color: var(--accent-green); color: var(--accent-green); }
 
         /* --- MODAL CREAR CLAVE --- */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center;
-        }
-        .modal {
-            background: var(--card-bg); border: 1px solid var(--border-color); padding: 25px;
-            border-radius: 12px; width: 100%; max-width: 450px; max-height: 90vh; overflow-y: auto;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .modal { background: var(--card-bg); border: 1px solid var(--border-color); padding: 25px; border-radius: 12px; width: 90%; max-width: 450px; max-height: 90vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .modal-header h3 { font-size: 18px; }
         .close-btn { background: #2a2a2a; border: none; color: white; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; }
         
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 12px; background: transparent; border: 1px solid var(--border-color);
-            border-radius: 8px; color: white; outline: none; font-family: var(--font-family);
-        }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--border-color); border-radius: 8px; color: white; outline: none; font-family: var(--font-family); }
         .form-group input:focus, .form-group select:focus { border-color: var(--accent-green); }
         
         .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
@@ -133,12 +152,42 @@
         .modal-actions { display: flex; gap: 10px; margin-top: 25px; }
         .btn-cancel { background: transparent; border: 1px solid var(--border-color); color: white; padding: 12px; border-radius: 8px; cursor: pointer; flex: 1; }
         .btn-save { background: var(--accent-red); border: none; color: white; font-weight: bold; padding: 12px; border-radius: 8px; cursor: pointer; flex: 1; }
+
+        /* --- ADAPTACIÓN PARA CELULARES --- */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                transform: translateX(-100%); /* Oculta la barra a la izquierda */
+            }
+            .sidebar.open {
+                transform: translateX(0); /* Muestra la barra al hacer clic */
+            }
+            .mobile-menu-btn {
+                display: flex; /* Muestra el botón hamburguesa */
+                align-items: center;
+                gap: 8px;
+            }
+            .overlay.active {
+                display: block;
+            }
+            .main-content {
+                padding: 20px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr; /* Dos columnas de estadísticas en móvil */
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Fondo oscuro para móvil -->
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
     <!-- BARRA LATERAL -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <img src="logo.jpeg" alt="Logo">
             <div>
@@ -181,6 +230,12 @@
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="main-content">
+        <!-- Botón para abrir menú en celular -->
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            Menú
+        </button>
+
         <!-- Panel de Estadísticas -->
         <div class="stats-grid">
             <div class="stat-card total">
@@ -210,10 +265,6 @@
             <button class="btn-secondary">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 Añadir tiempo a claves sin usar
-            </button>
-            <button class="btn-secondary">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                Importar claves
             </button>
         </div>
 
@@ -254,20 +305,6 @@
                 <input type="number" id="newDays" value="30" min="1" max="36500">
             </div>
 
-            <div class="checkbox-group">
-                <input type="checkbox" id="chkLower" checked>
-                <label for="chkLower">Include Lowercase Letters</label>
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="chkUpper" checked>
-                <label for="chkUpper">Include Uppercase Letters</label>
-            </div>
-
-            <div class="form-group">
-                <label>License Expiry Unit</label>
-                <select disabled><option>Days</option></select>
-            </div>
-
             <div class="modal-actions">
                 <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
                 <button class="btn-save" onclick="crearClave()">Generar Clave</button>
@@ -276,8 +313,15 @@
     </div>
 
     <script>
-        // URL de tu Proxy Seguro en Cloudflare
         const API_URL = 'https://starsvip-api-proxy.naooko18.workers.dev/api/licenses';
+
+        // --- CONTROL DEL MENÚ MÓVIL ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
 
         // 1. Cargar Datos y Actualizar Estadísticas
         async function cargarLicencias() {
@@ -296,7 +340,7 @@
                 document.getElementById('statTotal').innerText = licencias.length;
                 document.getElementById('statUnused').innerText = licencias.filter(l => l.active && l.daysValid > 0).length; 
                 document.getElementById('statUsed').innerText = licencias.filter(l => !l.active).length; 
-                document.getElementById('statBanned').innerText = 0; // Tu API no maneja baneos directos, se puede adaptar
+                document.getElementById('statBanned').innerText = 0; 
 
                 if (licencias.length === 0) {
                     tabla.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">No hay licencias generadas aún.</td></tr>`;
@@ -321,11 +365,9 @@
             }
         }
 
-        // 2. Control del Modal
         function abrirModal() { document.getElementById('modalCrear').style.display = 'flex'; }
         function cerrarModal() { document.getElementById('modalCrear').style.display = 'none'; }
 
-        // 3. Crear Clave (POST)
         async function crearClave() {
             const username = document.getElementById('newUsername').value;
             const days = document.getElementById('newDays').value;
@@ -348,16 +390,15 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Alerta con opción de copiar
-                    const mensaje = `¡Licencia generada con éxito!\n\nUsuario: ${data.username}\nKey: ${data.key}\nExpira: ${new Date(data.expiresAt).toLocaleDateString()}\n\n¿Deseas copiar la Key al portapapeles?`;
+                    const mensaje = `¡Licencia generada!\n\nUsuario: ${data.username}\nKey: ${data.key}\nExpira: ${new Date(data.expiresAt).toLocaleDateString()}\n\n¿Copiar la Key?`;
                     
                     if (confirm(mensaje)) {
                         navigator.clipboard.writeText(data.key);
-                        alert("✅ Licencia copiada al portapapeles.");
+                        alert("✅ Copiada.");
                     }
                     
                     cerrarModal();
-                    cargarLicencias(); // Refrescar tabla y contadores
+                    cargarLicencias(); 
                 } else {
                     alert("Error de la API: " + (data.error || "Desconocido"));
                 }
@@ -372,7 +413,6 @@
             alert("Licencia copiada: " + texto);
         }
 
-        // Iniciar
         document.addEventListener('DOMContentLoaded', cargarLicencias);
     </script>
 </body>
