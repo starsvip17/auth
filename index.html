@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - xMMNF</title>
+    <title>Iniciar Sesión - STARS VIP</title>
     <style>
         /* --- ESTILOS GLOBALES --- */
         :root {
@@ -12,7 +12,6 @@
             --text-main: #ffffff;
             --text-muted: #888888;
             --border-color: #333333;
-            /* CAMBIO A VERDE AQUÍ */
             --accent-green: #00c853; 
             --accent-green-hover: #00a344;
             --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -49,7 +48,7 @@
         .header img {
             height: 45px;
             width: auto;
-            border-radius: 8px; /* Por si tu logo es cuadrado */
+            border-radius: 8px;
         }
 
         .header h1 {
@@ -155,7 +154,7 @@
         }
 
         .input-wrapper input:focus {
-            border-color: var(--accent-green); /* Borde verde al enfocar */
+            border-color: var(--accent-green);
         }
 
         .toggle-password {
@@ -179,7 +178,7 @@
         /* --- BOTÓN --- */
         .btn-submit {
             width: 100%;
-            background-color: var(--accent-green); /* Botón Verde */
+            background-color: var(--accent-green);
             color: white;
             border: none;
             border-radius: 8px;
@@ -195,12 +194,17 @@
             transition: background-color 0.3s, transform 0.1s;
         }
 
-        .btn-submit:hover {
+        .btn-submit:hover:not(:disabled) {
             background-color: var(--accent-green-hover);
         }
 
-        .btn-submit:active {
+        .btn-submit:active:not(:disabled) {
             transform: scale(0.98);
+        }
+
+        .btn-submit:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .btn-submit svg {
@@ -214,9 +218,8 @@
 
     <!-- HEADER -->
     <div class="header">
-        <!-- AQUÍ ESTÁ TU LOGO CONFIGURADO -->
-        <img src="logo.jpeg" alt="Logo xMMNF">
-        <h1>xMMNF <span>x$</span></h1>
+        <img src="logo.jpeg" alt="Logo STARS VIP">
+        <h1>STARS <span>VIP</span></h1>
     </div>
 
     <!-- TARJETA DE LOGIN -->
@@ -260,7 +263,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit">
+            <button type="submit" class="btn-submit" id="submitBtn">
                 Iniciar sesión
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
@@ -275,26 +278,31 @@
             
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
-                eyeIcon.style.stroke = '#00c853'; // Cambia a verde cuando se ve
+                eyeIcon.style.stroke = '#00c853'; // Verde cuando se ve
             } else {
                 passwordInput.type = 'password';
                 eyeIcon.style.stroke = 'currentColor';
             }
         }
 
-        // Manejo del formulario de login
+        // --- LÓGICA DE CONEXIÓN CON LA API ---
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
             const twoFactor = document.getElementById('twoFactor').value;
+            const submitBtn = document.getElementById('submitBtn');
 
-            // AQUÍ ES DONDE CONECTAS TU API
-            // He actualizado el comentario con la URL de tu API
-            /*
+            // Estado de carga en el botón
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = 'Verificando...';
+            submitBtn.disabled = true;
+
             try {
-                const response = await fetch('https://sxnt-license-api-production.up.railway.app/login', { // <-- Revisa si la ruta es /login o /auth
+                // Petición a tu API en Railway
+                // Si tu ruta no es /login, cámbiala aquí abajo.
+                const response = await fetch('https://sxnt-license-api-production.up.railway.app/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -303,27 +311,43 @@
                     body: JSON.stringify({
                         username: user,
                         password: pass,
-                        twoFactor: twoFactor
+                        two_factor: twoFactor // Ajusta este nombre si tu API lo pide diferente (ej: "otp", "2fa")
                     })
                 });
 
-                const data = await response.json();
+                // Intentar leer la respuesta JSON
+                const data = await response.json().catch(() => ({}));
 
                 if (response.ok) {
-                    localStorage.setItem('token', data.token);
-                    window.location.href = 'app.html'; // Redirige al panel
+                    // ¡LOGIN EXITOSO!
+                    if (data.token) {
+                        localStorage.setItem('auth_token', data.token);
+                    }
+                    if (data.user) {
+                        localStorage.setItem('user_data', JSON.stringify(data.user));
+                    }
+                    
+                    // Redirigir a la pantalla de carga
+                    window.location.href = 'loading.html';
+                    
                 } else {
-                    alert('Error: ' + (data.message || 'Credenciales incorrectas'));
+                    // ERROR DE CREDENCIALES
+                    alert(`Error de acceso: ${data.message || data.error || 'Usuario o contraseña incorrectos'}`);
+                    
+                    // Restaurar botón
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
                 }
-            } catch (error) {
-                console.error('Error de conexión:', error);
-                alert('Error al conectar con el servidor.');
-            }
-            */
 
-            // Simulación visual mientras conectas la API real
-            console.log("Intentando iniciar sesión con:", { user, pass, twoFactor });
-            alert("Simulación: Aquí se conectaría con la API. (Colores verdes y logo actualizados)");
+            } catch (error) {
+                // ERROR DE RED / CORS
+                console.error('Error de conexión:', error);
+                alert('Error de conexión con el servidor. Revisa tu internet o que la API esté activa.');
+                
+                // Restaurar botón
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
         });
     </script>
 </body>
